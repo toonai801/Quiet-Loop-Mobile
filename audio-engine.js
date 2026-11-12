@@ -62,7 +62,7 @@ export class QuietAudio {
     this.layers.set(sound.id, layer);
     this.setVolume(sound.id, volume, 0.18);
     this.setPan(sound.id, pan);
-    if (this.playing) this.startLayer(layer);
+    if (this.playing) await this.startLayer(layer);
     return layer;
   }
 
@@ -186,9 +186,9 @@ export class QuietAudio {
     return profiles[type] || {};
   }
 
-  startLayer(layer) {
+  async startLayer(layer) {
     if (layer.element) {
-      layer.element.play().catch(() => {});
+      await layer.element.play();
     } else {
       for (const node of layer.toneNodes) {
         try { node.start(); } catch {}
@@ -203,7 +203,13 @@ export class QuietAudio {
     await this.ensure();
     if (this.playing) return;
     this.playing = true;
-    for (const layer of this.layers.values()) this.startLayer(layer);
+    try {
+      await Promise.all(Array.from(this.layers.values(), (layer) => this.startLayer(layer)));
+    } catch (error) {
+      this.playing = false;
+      for (const layer of this.layers.values()) layer.element?.pause();
+      throw error;
+    }
     this.master.gain.cancelScheduledValues(this.context.currentTime);
     this.master.gain.setTargetAtTime(this.masterVolume, this.context.currentTime, 0.12);
   }
