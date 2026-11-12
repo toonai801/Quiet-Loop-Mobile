@@ -8,7 +8,7 @@ Serve this folder over HTTP or HTTPS. For example, run py -m http.server 8080 an
 
 ## Features
 
-- Mood-based listening, a stereo live mixer, per-sound volume and pan, timer, favorites, recents, and saved mixes.
+- Mood-based listening, a stereo live mixer, per-sound volume, timer, favorites, recents, and saved mixes.
 - The 49 recorded library sounds plus procedural noise and environmental textures.
 - 50 full-screen slideshow images. Exiting the slideshow does not stop playback.
 - Favorites, recents, preferences, and mixes stay in browser storage on this device.
