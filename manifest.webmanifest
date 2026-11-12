@@ -2,7 +2,6 @@
   "name": "QuietLoop Web",
   "short_name": "QuietLoop",
   "description": "A private, on-device sound space.",
-  "id": "./",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
