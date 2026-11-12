@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#11191a">
+  <meta name="description" content="A private, on-device sound space for the way you want to feel.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self' blob:; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./assets/quietloop-mark.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./assets/quietloop-mark.svg">
+  <link rel="stylesheet" href="./styles.css">
+  <title>QuietLoop Web</title>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" data-screen-link="listen" aria-label="QuietLoop home">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span><b>quietloop</b><small>your sound space</small></span>
+      </a>
+      <nav class="side-nav" aria-label="Main navigation">
+        <button class="nav-item active" data-screen-link="listen"><span class="nav-icon">◌</span><span>Listen</span></button>
+        <button class="nav-item" data-screen-link="mix"><span class="nav-icon">◫</span><span>Your mix</span><span id="nav-layer-count" class="nav-count">0</span></button>
+        <button class="nav-item" data-screen-link="sounds"><span class="nav-icon">▦</span><span>Soundboard</span></button>
+        <button class="nav-item" data-screen-link="saved"><span class="nav-icon">♡</span><span>Saved</span></button>
+      </nav>
+      <div class="sidebar-bottom">
+        <button class="nav-item" data-screen-link="settings"><span class="nav-icon">⚙</span><span>Settings</span></button>
+        <div class="privacy-badge"><span class="privacy-dot"></span><span>Private by design</span></div>
+      </div>
+    </aside>
+
+    <main class="main-column">
+      <header class="topbar">
+        <div class="mobile-brand"><span class="brand-mark small"><i></i><i></i><i></i></span><b>quietloop</b></div>
+        <div class="topbar-note"><span class="privacy-dot"></span><span>Sounds and mixes stay on this device</span></div>
+        <button class="icon-button" id="slideshow-open" title="Open the QuietLoop image slideshow" aria-label="Open image slideshow">▧</button>
+      </header>
+
+      <section class="screen active" id="screen-listen" aria-labelledby="listen-title">
+        <div class="welcome-block">
+          <div>
+            <p class="eyebrow">A moment for you</p>
+            <h1 id="listen-title">How do you want<br class="desktop-break"> to feel?</h1>
+            <p class="subhead">Choose a mood. Shape the sound as you go.</p>
+          </div>
+          <div class="welcome-art" aria-hidden="true"><span class="orbit orbit-a"></span><span class="orbit orbit-b"></span><span class="orbit-core"></span></div>
+        </div>
+        <div class="section-head"><div><h2>Choose your mood</h2><p>Each one starts a sound you can make your own.</p></div></div>
+        <div class="mood-grid" id="mood-grid"></div>
+        <div class="listen-lower">
+          <button class="soft-link-card" data-screen-link="sounds"><span class="shortcut-icon">▦</span><span><b>Build your own mix</b><small>Browse the complete soundboard</small></span><span class="arrow">↗</span></button>
+          <button class="soft-link-card" data-screen-link="saved"><span class="shortcut-icon">♡</span><span><b>Return to a favorite</b><small>Saved sounds and recent listening</small></span><span class="arrow">↗</span></button>
+        </div>
+      </section>
+
+      <section class="screen" id="screen-mix" aria-labelledby="mix-title">
+        <div class="page-heading">
+          <div><p class="eyebrow">Live listening</p><h1 id="mix-title">Your mix</h1><p class="subhead" id="mix-subtitle">Layer sounds and shape each one.</p></div>
+          <button class="pill-button" id="save-mix">＋ Save this mix</button>
+        </div>
+        <div class="mix-layout">
+          <div class="mix-stage">
+            <div class="mix-art-wrap"><img id="mix-art" src="assets/art/art_moonlit_lake.webp" alt=""><div class="mix-art-shade"></div><div class="mix-art-label"><span class="live-pill"><i></i> LIVE MIX</span><strong id="mix-art-title">A quiet place</strong><span id="mix-art-caption">Add sounds to begin.</span></div></div>
+            <div class="stage-controls">
+              <button class="round-control" id="stage-play" aria-label="Play or pause">▶</button>
+              <div class="stage-volume"><span>MASTER</span><input id="master-volume" aria-label="Master volume" type="range" min="0" max="1" step=".01" value=".76"><b id="master-value">76%</b></div>
+              <button class="round-control subtle" id="stage-timer" aria-label="Set sleep timer">◷</button>
+            </div>
+          </div>
+          <div class="layers-panel">
+            <div class="layers-heading"><div><h2>Layers <span id="layer-heading-count">0</span></h2><p>Adjust each sound in real time.</p></div><button class="text-button" id="add-sound">＋ Add sound</button></div>
+            <div class="layer-list" id="layer-list"></div>
+            <div class="empty-layers" id="empty-layers"><div class="empty-wave">〰</div><b>Your sound space is open</b><p>Start with a mood or add sounds from the board.</p><button class="outline-button" data-screen-link="sounds">Explore sounds</button></div>
+            <div class="mix-footer"><span id="mix-layer-summary">No layers playing</span><button class="text-button danger-text" id="clear-mix">Clear mix</button></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="screen-sounds" aria-labelledby="sounds-title">
+        <div class="page-heading sound-heading">
+          <div><p class="eyebrow">Find your texture</p><h1 id="sounds-title">Soundboard</h1><p class="subhead">Tap a sound to add or remove it from your live mix.</p></div>
+          <label class="search-box"><span aria-hidden="true">⌕</span><input id="sound-search" type="search" placeholder="Find a sound" autocomplete="off" aria-label="Find a sound"></label>
+        </div>
+        <div class="category-bar" id="category-bar" role="tablist" aria-label="Sound categories"></div>
+        <div class="soundboard-meta"><span id="soundboard-count"></span><span>Tap to add · tap again to remove</span></div>
+        <div class="sound-grid" id="sound-grid"></div>
+      </section>
+
+      <section class="screen" id="screen-saved" aria-labelledby="saved-title">
+        <div class="page-heading">
+          <div><p class="eyebrow">Yours to return to</p><h1 id="saved-title">Saved</h1><p class="subhead">Favorites, recent sounds, and mixes saved on this device.</p></div>
+        </div>
+        <div class="saved-tabs" role="tablist" aria-label="Saved items">
+          <button class="saved-tab active" data-saved-tab="mixes">My mixes <span id="saved-mix-count">0</span></button>
+          <button class="saved-tab" data-saved-tab="favorites">Favorites <span id="saved-fav-count">0</span></button>
+          <button class="saved-tab" data-saved-tab="recents">Recently played</button>
+        </div>
+        <div id="saved-content" class="saved-content"></div>
+      </section>
+
+      <section class="screen" id="screen-settings" aria-labelledby="settings-title">
+        <div class="page-heading">
+          <div><p class="eyebrow">This device only</p><h1 id="settings-title">Settings</h1><p class="subhead">Keep your quiet space the way you like it.</p></div>
+        </div>
+        <div class="settings-grid">
+          <article class="settings-card offline-card">
+            <div class="setting-icon">⇩</div><div class="setting-copy"><h2>Listen offline</h2><p id="offline-status">The app shell is ready. Cache the sound library and 50 images for offline listening.</p></div>
+            <div class="offline-progress"><span id="offline-progress-bar"></span></div>
+            <div class="offline-actions"><button class="primary-button" id="cache-offline">Cache media for offline</button><span id="offline-progress-label">Ready</span></div>
+          </article>
+          <article class="settings-card">
+            <div class="setting-icon">◷</div><div class="setting-copy"><h2>Sleep timer</h2><p>Fade playback down when your timer ends. Audio may pause if your browser suspends the app in the background.</p></div>
+            <button class="outline-button" id="settings-timer">Choose timer</button>
+          </article>
+          <article class="settings-card">
+            <div class="setting-icon">◉</div><div class="setting-copy"><h2>On-device privacy</h2><p>Your favorites, recent sounds, saved mixes, and preferences are stored in this browser. QuietLoop has no account or tracking.</p></div>
+            <span class="local-only">LOCAL ONLY</span>
+          </article>
+          <article class="settings-card">
+            <div class="setting-icon">▧</div><div class="setting-copy"><h2>Full-screen images</h2><p>Open the QuietLoop slideshow. Leaving it never stops the audio mix.</p></div>
+            <button class="outline-button" id="settings-slideshow">View slideshow</button>
+          </article>
+          <article class="settings-card">
+            <div class="setting-icon">ⓘ</div><div class="setting-copy"><h2>About the sounds</h2><p>See the recording credits and licenses for the bundled library.</p></div>
+            <button class="outline-button" id="open-credits">Credits</button>
+          </article>
+        </div>
+        <p class="browser-note">Playback starts after a tap. Background audio and screen-lock behavior depend on your browser and device.</p>
+      </section>
+
+      <footer class="mini-player" id="mini-player">
+        <div class="mini-now"><div class="mini-thumb"><img id="mini-art" src="assets/art/art_moonlit_lake.webp" alt=""></div><div class="mini-copy"><b id="mini-title">A quiet place</b><span id="mini-detail">Choose a mood to begin</span></div></div>
+        <div class="mini-controls"><button class="mini-icon" id="mini-timer" title="Sleep timer" aria-label="Sleep timer">◷</button><button class="mini-play" id="mini-play" aria-label="Play or pause">▶</button><button class="mini-icon" id="mini-mix" title="Open your mix" aria-label="Open your mix">◫</button></div>
+        <div class="mini-status"><span class="stereo-indicator"><i></i><i></i></span><span id="playing-status">READY</span><span class="player-divider"></span><button id="mini-slideshow" class="mini-icon" title="Slideshow" aria-label="Open slideshow">▧</button></div>
+      </footer>
+      <nav class="mobile-nav" aria-label="Main navigation">
+        <button class="mobile-nav-item active" data-screen-link="listen"><span>◌</span><small>Listen</small></button>
+        <button class="mobile-nav-item" data-screen-link="mix"><span>◫<i id="mobile-layer-dot"></i></span><small>Mix</small></button>
+        <button class="mobile-nav-item" data-screen-link="sounds"><span>▦</span><small>Sounds</small></button>
+        <button class="mobile-nav-item" data-screen-link="saved"><span>♡</span><small>Saved</small></button>
+        <button class="mobile-nav-item" data-screen-link="settings"><span>⚙</span><small>More</small></button>
+      </nav>
+    </main>
+  </div>
+
+  <div id="overlay-root"></div>
+  <div class="toast-region" id="toast-region" aria-live="polite"></div>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

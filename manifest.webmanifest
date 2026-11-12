@@ -1,0 +1,17 @@
+{
+  "name": "QuietLoop Web",
+  "short_name": "QuietLoop",
+  "description": "A private, on-device sound space.",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#11191a",
+  "theme_color": "#11191a",
+  "icons": [
+    { "src": "./assets/icons/quietloop-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./assets/icons/quietloop-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" },
+    { "src": "./assets/quietloop-mark.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
