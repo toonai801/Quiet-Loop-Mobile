@@ -118,6 +118,7 @@ input[type=range]{accent-color:var(--sage);height:4px;width:100%;cursor:pointer}
 .layer-remove{background:transparent;color:var(--faint);font-size:16px;width:26px;height:26px;border-radius:7px}
 .layer-remove:hover{color:var(--danger);background:rgba(221,154,140,.08)}
 .empty-layers{margin:auto;min-height:140px;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center}
+.empty-layers[hidden]{display:none}
 .empty-wave{color:var(--sage);font-size:32px;line-height:1;margin-bottom:8px}
 .empty-layers b{font:600 12px Manrope,sans-serif}
 .empty-layers p{color:var(--faint);font-size:10px;max-width:230px;line-height:1.5;margin:5px 0 11px}
@@ -256,11 +257,34 @@ input[type=range]{accent-color:var(--sage);height:4px;width:100%;cursor:pointer}
   .topbar{padding:0 18px}
   .topbar-note{font-size:9px}
   .screen{padding:20px 20px 24px}
-  .mix-layout{grid-template-columns:1fr;gap:10px}
-  .mix-art-wrap{height:214px;flex:0 0 214px}
-  .mix-stage{padding:10px}
-  .stage-controls{height:57px}
-  .layers-panel{min-height:285px}
+  .mix-layout{display:flex;flex:0 0 auto;flex-direction:column;gap:10px;min-height:0;overflow:visible}
+  .mix-stage{flex:none;padding:10px}
+  .mix-art-wrap{height:clamp(170px,26vh,220px);min-height:0;max-height:none;flex:none}
+  .stage-controls{height:62px;flex:none;gap:10px}
+  .stage-volume{grid-template-columns:48px minmax(0,1fr) 36px;gap:8px}
+  .stage-volume input{height:44px;touch-action:pan-y}
+  .layers-panel{flex:none;min-height:0;overflow:visible}
+  .layer-list{flex:none;overflow:visible}
+  .layer-row{grid-template-columns:40px minmax(0,1fr) 44px;grid-template-areas:"thumb name remove" "gain gain gain" "beat beat beat";gap:4px 10px;min-height:0;padding:10px 0}
+  .layer-thumb{grid-area:thumb;width:40px;height:40px}
+  .layer-name{grid-area:name}
+  .layer-name b{font-size:12px}
+  .layer-name small{font-size:10px}
+  .layer-gain{grid-area:gain;display:grid;grid-template-columns:minmax(0,1fr) 42px;gap:10px;min-width:0}
+  .layer-gain input{height:44px;min-width:0;touch-action:pan-y}
+  .layer-gain span{width:auto;font-size:11px}
+  .layer-remove{grid-area:remove;width:44px;height:44px;font-size:20px}
+  .layer-beat-control{grid-area:beat;grid-column:1/-1;padding:0 0 0 50px;gap:3px}
+  .layer-beat-control label{display:grid;gap:2px;font-size:10px}
+  .layer-beat-control input{height:44px;touch-action:pan-y}
+  .layer-beat-control small{font-size:9px;line-height:1.4}
+  .category-bar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:3px 0 10px;margin-bottom:10px;min-height:0;overflow:visible}
+  .category-chip{width:100%;min-width:0;min-height:44px;padding:7px 4px;font-size:clamp(9px,1.8vw,12px);white-space:normal;line-height:1.15;overflow-wrap:anywhere}
+  .soundboard-meta{align-items:flex-start;flex-wrap:wrap;gap:4px 10px}
+  #soundboard-hint{text-align:right}
+  .sound-heart,.sound-plus{width:44px;height:44px;min-height:44px;display:grid;place-items:center;line-height:1;font-size:17px}
+  .sound-heart{top:5px;right:5px}
+  .sound-plus{top:5px;left:5px}
   .mini-player{padding:0 16px;grid-template-columns:minmax(0,1fr) auto}
   .mini-status{display:none}
   .mobile-nav{display:grid;grid-template-columns:repeat(5,1fr);align-items:center;border-top:1px solid var(--line);background:#11191a;padding:4px 7px max(4px,env(safe-area-inset-bottom))}
@@ -307,25 +331,17 @@ input[type=range]{accent-color:var(--sage);height:4px;width:100%;cursor:pointer}
   .layers-heading h2{font-size:14px}
   .layers-heading p{font-size:8px}
   .text-button{font-size:9px}
-  .layer-row{grid-template-columns:32px minmax(63px,.82fr) minmax(75px,1fr) 24px;gap:6px;min-height:55px}
-  .layer-thumb{width:31px;height:31px}
-  .layer-name b{font-size:9px}
-  .layer-name small{font-size:7px}
-  .layer-gain{gap:3px}
-  .layer-gain span{width:22px;font-size:7px}
-  .layer-remove{width:23px}
   .mini-player{padding:0 11px;gap:5px}
   .mini-thumb{width:39px;height:39px}
   .mini-now{gap:7px}
   .mini-copy b{font-size:9px}
   .mini-copy span{font-size:7px}
   .mini-controls{gap:7px}
-  .mini-controls .mini-icon{width:25px}
-  .mini-play{width:31px;height:31px}
+  .mini-controls .mini-icon{width:40px;height:40px}
+  .mini-play{width:44px;height:44px}
   .sound-heading{display:block}
   .search-box{width:100%;margin-top:11px;height:35px}
-  .category-bar{gap:5px;margin-bottom:9px}
-  .category-chip{padding:7px 9px;font-size:8px}
+  .category-chip{padding:7px 3px;font-size:clamp(8px,2.2vw,10px)}
   .soundboard-meta{font-size:8px}
   .sound-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
   .sound-card{height:130px}
