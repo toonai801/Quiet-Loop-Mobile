@@ -31,7 +31,7 @@ export class QuietAudio {
     return this.context;
   }
 
-  async add(sound, volume = 0.35, pan = 0) {
+  async add(sound, volume = 0.35, pan = 0, frequencySettings = {}) {
     await this.ensure();
     if (this.layers.has(sound.id)) return this.layers.get(sound.id);
     const ctx = this.context;
@@ -40,11 +40,12 @@ export class QuietAudio {
     const panner = ctx.createStereoPanner ? ctx.createStereoPanner() : ctx.createGain();
     inputGain.gain.value = 1;
     fader.gain.value = 0;
-    if (panner.pan) panner.pan.value = clamp(pan, -1, 1);
+    if (panner.pan) panner.pan.value = sound.type === "binaural" ? 0 : clamp(pan, -1, 1);
     inputGain.connect(fader);
-    fader.connect(panner);
+    if (sound.type === "binaural") fader.connect(this.master);
+    else fader.connect(panner);
     panner.connect(this.master);
-    const layer = {sound, volume:clamp(volume), pan:clamp(pan,-1,1), inputGain, fader, panner, element:null, source:null, filter:null, toneNodes:[]};
+    const layer = {sound, volume:clamp(volume), pan:sound.type === "binaural" ? 0 : clamp(pan,-1,1), inputGain, fader, panner, element:null, source:null, filter:null, toneNodes:[], ...(sound.type === "binaural" ? {toneBase:clamp(frequencySettings.toneBase ?? 174,100,960),beatHz:clamp(frequencySettings.beatHz ?? 2,.5,40)} : {})};
     if (sound.audio) {
       const element = new Audio(sound.audio);
       element.preload = "auto";
@@ -73,8 +74,8 @@ export class QuietAudio {
     const right = ctx.createOscillator();
     const leftGain = ctx.createGain();
     const rightGain = ctx.createGain();
-    const base = layer.toneBase || 174;
-    const beatHz = layer.beatHz || 2;
+    const base = layer.toneBase ?? 174;
+    const beatHz = layer.beatHz ?? 2;
     left.type = "sine";
     right.type = "sine";
     left.frequency.value = base;
@@ -259,7 +260,7 @@ export class QuietAudio {
   setBinauralBeat(id, value) {
     const layer = this.layers.get(id);
     if (!layer || layer.sound.type !== "binaural") return 2;
-    layer.beatHz = clamp(value, 1, 40);
+    layer.beatHz = clamp(value, .5, 40);
     const right = layer.toneNodes[1];
     if (right && this.context) {
       right.frequency.setTargetAtTime(layer.toneBase + layer.beatHz, this.context.currentTime, 0.04);
@@ -267,9 +268,24 @@ export class QuietAudio {
     return layer.beatHz;
   }
 
+  setBinauralCarrier(id, value) {
+    const layer = this.layers.get(id);
+    if (!layer || layer.sound.type !== "binaural") return 174;
+    layer.toneBase = clamp(value, 100, 960);
+    const left = layer.toneNodes[0];
+    const right = layer.toneNodes[1];
+    if (this.context) {
+      const now = this.context.currentTime;
+      left?.frequency.setTargetAtTime(layer.toneBase, now, 0.04);
+      right?.frequency.setTargetAtTime(layer.toneBase + layer.beatHz, now, 0.04);
+    }
+    return layer.toneBase;
+  }
+
   setPan(id, value) {
     const layer = this.layers.get(id);
     if (!layer) return;
+    if (layer.sound.type === "binaural") { layer.pan = 0; return; }
     layer.pan = clamp(value,-1,1);
     if (layer.panner.pan) layer.panner.pan.setTargetAtTime(layer.pan,this.context.currentTime,0.04);
   }
