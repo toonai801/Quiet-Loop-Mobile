@@ -79,7 +79,8 @@ h2{font:600 17px/1.25 Manrope,sans-serif;letter-spacing:-.3px;margin:0}
 .mix-layout{display:grid;grid-template-columns:minmax(270px,.82fr) minmax(330px,1.18fr);gap:19px;max-width:1180px;min-height:0;flex:1}
 .mix-stage,.layers-panel{border:1px solid var(--line);background:rgba(255,255,255,.025);border-radius:var(--radius);padding:13px;min-height:0}
 .mix-stage{display:flex;flex-direction:column}
-.mix-art-wrap{position:relative;flex:1;min-height:195px;max-height:365px;border-radius:15px;overflow:hidden;background:#1e2c29}
+.mix-art-wrap{position:relative;flex:1;min-height:195px;max-height:365px;border-radius:15px;overflow:hidden;background:#1e2c29;cursor:pointer;appearance:none;padding:0;text-align:left;color:inherit}
+.mix-art-wrap:focus-visible{outline:2px solid var(--sand);outline-offset:3px}
 .mix-art-wrap img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
 .mix-art-shade{position:absolute;inset:0;background:linear-gradient(0deg,rgba(5,11,11,.86),transparent 65%),linear-gradient(135deg,rgba(18,28,27,.12),rgba(14,24,24,.3))}
 .mix-art-label{position:absolute;bottom:18px;left:18px;display:flex;flex-direction:column;align-items:flex-start}
@@ -239,6 +240,10 @@ input[type=range]{accent-color:var(--sage);height:4px;width:100%;cursor:pointer}
 .slide-controls button:hover{background:rgba(255,255,255,.16)}
 .slide-playing{position:absolute;top:21px;left:22px;color:rgba(255,255,255,.75);font-size:8px;letter-spacing:1.5px;display:flex;align-items:center;gap:7px}
 .slide-playing i{width:5px;height:5px;border-radius:50%;background:var(--sage)}
+.slideshow-saver .slide-caption,.slideshow-saver .slide-controls,.slideshow-saver .slide-playing{transition:opacity .45s ease}
+.slideshow-saver.saver-idle .slide-caption,.slideshow-saver.saver-idle .slide-controls,.slideshow-saver.saver-idle .slide-playing{opacity:0;pointer-events:none}
+.slideshow-saver .slide-exit{opacity:.72;transition:opacity .45s ease}
+.slideshow-saver.saver-idle .slide-exit{opacity:.32}
 .no-results{grid-column:1/-1;text-align:center;color:var(--faint);padding:42px 10px;font-size:11px}
 
 @media (min-width:1500px){

@@ -11,6 +11,7 @@ Serve this folder over HTTP or HTTPS. For example, run py -m http.server 8080 an
 - Mood-based listening, a stereo live mixer, per-sound volume, timer, favorites, recents, and saved mixes.
 - The 49 recorded library sounds plus procedural noise and environmental textures.
 - 50 full-screen slideshow images. Exiting the slideshow does not stop playback.
+- Hidden Screen Saver: tap the large artwork in Your mix. The 50-image slideshow hides its controls after a moment, keeps playback running, and requests a screen wake lock when supported.
 - Favorites, recents, preferences, and mixes stay in browser storage on this device.
 - The shell is cached after the first visit. Use Settings → Cache media for offline to cache the full sound and artwork library.
 
