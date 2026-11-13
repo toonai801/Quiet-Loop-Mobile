@@ -16,7 +16,7 @@ Serve this folder over HTTP or HTTPS. For example, run py -m http.server 8080 an
 
 ## Audio playback
 
-Recorded sources enter independent Web Audio gain and stereo-pan nodes. The stereo mix feeds a peak-control compressor and the browser output. Procedural noise uses generated stereo audio buffers and per-sound filters; the frequency generator uses separate left/right oscillators.
+Recorded sources enter independent Web Audio gain and stereo-pan nodes. The stereo mix feeds a peak-control compressor and the browser output. Procedural noise uses generated stereo audio buffers and per-sound filters. Add **Binaural beat** from **Soundboard → Frequencies** and adjust its 1–40 Hz beat in Your mix; it plays separate 174 Hz and offset tones to the left and right channels, so headphones are recommended.
 
 ## Browser constraints
 

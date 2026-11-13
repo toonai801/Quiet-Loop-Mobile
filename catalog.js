@@ -79,7 +79,7 @@ export const sounds = [
   {id:"shush",name:"Soft shushing",category:"Noise",type:"shush",art:"shush"},
   {id:"air_wash",name:"Deep air wash",category:"Noise",type:"airwash",art:"air_wash"},
   {id:"drone",name:"Harmonic drone",category:"Meditation",type:"drone",art:"harmonic_drone"},
-  {id:"frequency_tone",name:"Custom frequency",category:"Frequencies",type:"tone",art:"tuning_fork"}
+  {id:"frequency_tone",name:"Binaural beat",category:"Frequencies",type:"binaural",art:"tuning_fork"}
 ].map((item) => ({
   ...item,
   audio: item.file ? audio(item.file) : null,

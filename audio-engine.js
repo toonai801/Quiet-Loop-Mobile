@@ -54,7 +54,7 @@ export class QuietAudio {
       layer.element = element;
       layer.source = ctx.createMediaElementSource(element);
       layer.source.connect(inputGain);
-    } else if (sound.type === "tone" || sound.type === "drone") {
+    } else if (sound.type === "tone" || sound.type === "drone" || sound.type === "binaural") {
       this.createTone(layer);
     } else {
       this.createNoise(layer);
@@ -73,11 +73,12 @@ export class QuietAudio {
     const right = ctx.createOscillator();
     const leftGain = ctx.createGain();
     const rightGain = ctx.createGain();
-    const base = 174;
+    const base = layer.toneBase || 174;
+    const beatHz = layer.beatHz || 2;
     left.type = "sine";
     right.type = "sine";
     left.frequency.value = base;
-    right.frequency.value = base + 2;
+    right.frequency.value = base + beatHz;
     leftGain.gain.value = 0.24;
     rightGain.gain.value = 0.24;
     left.connect(leftGain).connect(merger, 0, 0);
@@ -86,6 +87,7 @@ export class QuietAudio {
     layer.toneNodes = [left,right];
     layer.toneMerger = merger;
     layer.toneBase = base;
+    layer.beatHz = beatHz;
     if (layer.sound.type === "drone") {
       const low = ctx.createOscillator();
       const lowGain = ctx.createGain();
@@ -231,7 +233,7 @@ export class QuietAudio {
         layer.inputGain.disconnect();
         layer.inputGain = this.context.createGain();
         layer.inputGain.connect(layer.fader);
-        if (layer.sound.type === "tone" || layer.sound.type === "drone") this.createTone(layer);
+        if (layer.sound.type === "tone" || layer.sound.type === "drone" || layer.sound.type === "binaural") this.createTone(layer);
         else this.createNoise(layer);
       }
     }
@@ -252,6 +254,17 @@ export class QuietAudio {
       gain.cancelScheduledValues(now);
       gain.setTargetAtTime(layer.volume, now, Math.max(0.01, ramp));
     }
+  }
+
+  setBinauralBeat(id, value) {
+    const layer = this.layers.get(id);
+    if (!layer || layer.sound.type !== "binaural") return 2;
+    layer.beatHz = clamp(value, 1, 40);
+    const right = layer.toneNodes[1];
+    if (right && this.context) {
+      right.frequency.setTargetAtTime(layer.toneBase + layer.beatHz, this.context.currentTime, 0.04);
+    }
+    return layer.beatHz;
   }
 
   setPan(id, value) {

@@ -1,4 +1,4 @@
-const SHELL_CACHE="quietloop-shell-v4",MEDIA_CACHE="quietloop-media-v3";
+const SHELL_CACHE="quietloop-shell-v5",MEDIA_CACHE="quietloop-media-v3";
 const SHELL=["./","./index.html","./styles.css","./app.js","./audio-engine.js","./catalog.js","./manifest.webmanifest","./assets/quietloop-mark.svg","./assets/icons/quietloop-192.png","./assets/icons/quietloop-512.png","./CREDITS.md"];
 self.addEventListener("install",(event)=>{event.waitUntil(caches.open(SHELL_CACHE).then((cache)=>cache.addAll(SHELL)).then(()=>self.skipWaiting()));});
 self.addEventListener("activate",(event)=>{event.waitUntil(caches.keys().then((keys)=>Promise.all(keys.filter((key)=>![SHELL_CACHE,MEDIA_CACHE].includes(key)).map((key)=>caches.delete(key)))).then(()=>self.clients.claim()));});
