@@ -424,3 +424,74 @@ input[type=range]{accent-color:var(--sage);height:4px;width:100%;cursor:pointer}
   .beat-presets{gap:4px}
   .beat-presets button{padding-inline:8px}
 }
+
+/* Phone readability: raise small-copy contrast and keep essential labels legible. */
+@media(max-width:820px){
+  :root{--muted:#c0cbc3;--faint:#a0ada5}
+  .topbar-note{font-size:10px;letter-spacing:0}
+  .eyebrow{font-size:10px;letter-spacing:1.5px}
+  .subhead{font-size:13px;line-height:1.5}
+  .section-head p,.layers-heading p{font-size:11px;line-height:1.4}
+  .mood-card strong{font-size:14px}
+  .mood-card small{font-size:10px}
+  .soft-link-card b{font-size:11px}
+  .soft-link-card small{font-size:9px}
+  .page-heading h1{font-size:30px}
+  .pill-button,.text-button{font-size:11px}
+  .mix-art-label>span:last-child{font-size:11px}
+  .layers-heading h2{font-size:16px}
+  .layers-heading h2 span{font-size:12px}
+  .layer-name b{font-size:14px}
+  .layer-name small{font-size:11px}
+  .layer-gain:before{font-size:10px}
+  .layer-gain span{font-size:13px}
+  .channel-readout,.frequency-slider,.frequency-slider b{font-size:11px!important}
+  .layer-beat-control>small{font-size:11px}
+  .beat-presets>span{font-size:10px}
+  .beat-presets button{font-size:10px}
+  .search-box{height:42px}
+  .search-box input{font-size:14px}
+  .category-chip{font-size:12px;line-height:1.2}
+  .soundboard-meta{font-size:11px;line-height:1.35}
+  .sound-card{height:140px}
+  .sound-card img{height:83px}
+  .sound-card-name b{font-size:13px;line-height:1.25}
+  .sound-card-name small{font-size:10px}
+  .saved-tab{font-size:11px}
+  .saved-tab span{font-size:10px}
+  .saved-row-copy b{font-size:13px}
+  .saved-row-copy small{font-size:10px}
+  .setting-copy h2{font-size:14px}
+  .setting-copy p,.browser-note{font-size:12px;line-height:1.5}
+  .offline-actions>span{font-size:10px}
+  .local-only{font-size:9px}
+  .mini-copy b{font-size:12px}
+  .mini-copy span{font-size:10px}
+  .mobile-nav-item small{font-size:10px}
+}
+@media(max-width:580px){
+  .topbar-note span:last-child{max-width:145px;font-size:9px}
+  .section-head h2{font-size:16px}
+  .mood-card{height:98px}
+  .mood-card small{font-size:10px}
+  .soft-link-card small{font-size:9px}
+  .subhead{font-size:12px}
+  .mix-art-label strong{font-size:19px}
+  .layers-panel{padding:14px}
+  .layers-heading p{font-size:10px}
+  .search-box{height:42px}
+  .category-chip{font-size:11px;padding:7px 3px}
+  .soundboard-meta{font-size:10px}
+  .sound-card{height:140px}
+  .sound-card-name{left:10px;bottom:10px}
+  .sound-card-name b{font-size:12px}
+  .sound-card-name small{font-size:10px}
+  .saved-tab{padding-inline:7px;font-size:10px}
+  .mini-copy span{font-size:9px}
+}
+@media(max-width:360px){
+  .category-chip{font-size:10px;padding-inline:2px}
+  .topbar-note span:last-child{max-width:118px;font-size:8px}
+  .screen{padding-inline:10px}
+  .layers-panel{padding:12px}
+}
