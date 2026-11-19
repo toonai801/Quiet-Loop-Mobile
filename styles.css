@@ -307,7 +307,7 @@ input[type=range]{accent-color:var(--sage);height:4px;width:100%;cursor:pointer}
   .topbar-note span:last-child{max-width:140px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .topbar .icon-button{width:31px;height:31px}
   .screen{padding:17px 14px 20px}
-  .welcome-block{min-height:95px;flex-shrink:0}
+  .welcome-block{min-height:132px;flex-shrink:0;align-items:flex-start}
   .welcome-block h1{font-size:30px}
   .welcome-art{width:88px;height:82px;margin-right:2px;transform:scale(.77);transform-origin:center right}
   .section-head{margin-top:8px;margin-bottom:9px}
@@ -370,6 +370,7 @@ input[type=range]{accent-color:var(--sage);height:4px;width:100%;cursor:pointer}
   .modal-card{padding:17px}
 }
 @media (max-width:360px){
+  .welcome-art{display:none}
   .screen{padding-inline:10px}
   .layers-panel{padding:10px}
   .layer-row{grid-template-columns:36px minmax(0,1fr) 40px;column-gap:8px}
