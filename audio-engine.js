@@ -292,7 +292,23 @@ export class QuietAudio {
 
   setMaster(value) {
     this.masterVolume = clamp(value);
-    if (this.context && this.playing) this.master.gain.setTargetAtTime(this.masterVolume,this.context.currentTime,0.05);
+    if (this.context && this.playing) {
+      const gain=this.master.gain,now=this.context.currentTime;
+      gain.cancelScheduledValues(now);
+      gain.setTargetAtTime(this.masterVolume,now,0.05);
+    }
+  }
+
+  fadeMasterOut(duration) {
+    if (!this.context || !this.playing) return;
+    const gain=this.master.gain,now=this.context.currentTime;
+    gain.cancelScheduledValues(now);
+    gain.setValueAtTime(gain.value,now);
+    gain.linearRampToValueAtTime(0,now+Math.max(0.01,duration));
+  }
+
+  cancelMasterFade() {
+    this.setMaster(this.masterVolume);
   }
 
   async remove(id, fade = 0.25) {
@@ -302,9 +318,9 @@ export class QuietAudio {
       const now=this.context.currentTime;
       layer.fader.gain.cancelScheduledValues(now);
       layer.fader.gain.setValueAtTime(layer.fader.gain.value,now);
-      layer.fader.gain.linearRampToValueAtTime(0,now+Math.max(0.01,fade));
+      if (fade > 0) layer.fader.gain.linearRampToValueAtTime(0,now+fade);
     }
-    await new Promise((resolve) => setTimeout(resolve,fade*1000));
+    if (fade > 0) await new Promise((resolve) => setTimeout(resolve,fade*1000));
     if (layer.element) { layer.element.pause(); layer.element.removeAttribute("src"); layer.element.load(); }
     else {
       for (const node of layer.toneNodes) { try { node.stop(); } catch {} }
